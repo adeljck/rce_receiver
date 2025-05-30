@@ -2,9 +2,15 @@ package main
 
 import (
 	"encoding/base64"
+	"flag"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"strings"
+)
+
+var (
+	Port string
 )
 
 func main() {
@@ -26,7 +32,11 @@ func main() {
 			fmt.Println(string(datas))
 		}
 	})
-	err := r.Run(":8080")
+	flag.StringVar(&Port, "p", "8080", "server port")
+	flag.Parse()
+	log.SetPrefix("[+] ")
+	log.Printf("Listening on port %s\n", Port)
+	err := r.Run(fmt.Sprintf(":%s", Port))
 	if err != nil {
 		panic(err)
 	}
